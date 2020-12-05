@@ -99,8 +99,12 @@ def temp_stat(start):
     temp_result = session.query(func.min(Measurement.tobs),func.avg(Measurement.tobs), func.max(Measurement.tobs) )\
                         .filter(Measurement.date >= start)\
                         .all()
+                        
+    temp_result_dict = dict({"Min temp": temp_result[0][0],
+                                "Avg temp": temp_result[0][1],
+                                "Max temp": temp_result[0][2] })
     
-    return jsonify(temp_result)
+    return jsonify(temp_result_dict)
 
     
 # When given the start and the end date, calculate the TMIN, TAVG, and TMAX for dates between the start and end date inclusive.
@@ -113,7 +117,11 @@ def temp_start_end(start, end):
                         .filter(Measurement.date <= end)\
                         .all()
     
-    return jsonify(temp_result_2)
+    temp_result_2_dict = dict({"Min temp": temp_result_2[0][0],
+                                "Avg temp": temp_result_2[0][1],
+                                "Max temp": temp_result_2[0][2] })
+
+    return jsonify(temp_result_2_dict)
 
 if __name__ == '__main__':
     app.run(debug=True)
